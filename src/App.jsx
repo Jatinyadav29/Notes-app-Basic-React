@@ -31,64 +31,120 @@ const App = () => {
   }
 
   return (
-    <div className="min-h-screen w-full lg:flex bg-black text-white">
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-        className="flex items-start gap-5 flex-col lg:w-1/2 font-mediump-10 p-10"
-      >
-        <h1 className="font-bold sm:text-3xl lg:text-6xl mb-5">Add Notes</h1>
-        <input
-          className="px-5 py-2 border-2 rounded w-full outline-none"
-          type="text"
-          placeholder="Enter Notes Heading"
-          value={title}
-          onChange={(e) => {
-            changeTitle(e);
-          }}
-        />
-        <textarea
-          className="px-5 py-3 border-2 rounded h-30 w-full outline-none"
-          type="text"
-          placeholder="Enter Details here"
-          value={details}
-          onChange={(e) => {
-            changeDetails(e);
-          }}
-        />
-        <button className="text-xl w-full cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg border-blue-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
-          Add notes
-        </button>
-      </form>
-      <div className="p-10 lg:border-l-2 lg:w-1/2">
-        <h1 className="font-bold sm:text-3xl lg:text-6xl mb-5">Recent Notes</h1>
-        <div className="flex flex-wrap justify-start items-start gap-5 overflow-auto h-[90%]">
-          {task.map(function (elem, idx) {
-            return (
-              <div
-                key={idx}
-                className="h-64 w-52 pt-8.5 pb-3 px-3 bg-cover flex justify-between flex-col rounded-2xl text-black bg-[url(https://static.vecteezy.com/system/resources/previews/037/152/677/non_2x/sticky-note-paper-background-free-png.png)] overflow-auto"
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      {/* Header */}
+      <div className="w-full py-6 px-4 sm:px-6 lg:px-8">
+        <h1 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent animate-fade-in">
+          My Notes App
+        </h1>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Add Notes Form */}
+          <div className="animate-slide-in-left">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center lg:text-left">
+                Add New Note
+              </h2>
+              <form
+                onSubmit={(e) => {
+                  handleSubmit(e);
+                }}
+                className="space-y-6"
               >
-                <div>
-                  <h3 className="p-3 rounded-2xl text-2xl leading-tight font-bold mb-2">
-                    {elem.title}
-                  </h3>
-                  <p className="leading-tight mt-3 px-2 text-gray-500">
-                    {elem.details}
-                  </p>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-300">
+                    Note Title
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:bg-white/15"
+                    type="text"
+                    placeholder="Enter note title..."
+                    value={title}
+                    onChange={(e) => {
+                      changeTitle(e);
+                    }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-300">
+                    Note Details
+                  </label>
+                  <textarea
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:bg-white/15 resize-none"
+                    rows="4"
+                    placeholder="Enter note details..."
+                    value={details}
+                    onChange={(e) => {
+                      changeDetails(e);
+                    }}
+                  />
                 </div>
                 <button
-                  onClick={() => {
-                    deleteNote(idx);
-                  }}
-                  className="bg-red-400 cursor-pointer text-white text-xs font-bold py-1 rounded-lg hover:bg-red-600 transition ease-in-out active:scale-95"
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                 >
-                  Delete
+                  Add Note
                 </button>
+              </form>
+            </div>
+          </div>
+
+          {/* Notes Display */}
+          <div className="animate-slide-in-right">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl h-full">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center lg:text-left">
+                Your Notes
+              </h2>
+              <div className="space-y-4 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                {task.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="text-6xl mb-4 opacity-50">📝</div>
+                    <p className="text-gray-400 text-lg">
+                      No notes yet. Create your first note!
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {task.map(function (elem, idx) {
+                      return (
+                        <div
+                          key={idx}
+                          className="group bg-gradient-to-br from-yellow-200 to-yellow-100 rounded-xl p-4 shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 animate-fade-in-up"
+                          style={{
+                            animationDelay: `${idx * 0.1}s`,
+                          }}
+                        >
+                          <div className="flex flex-col h-full">
+                            <div className="flex-1">
+                              <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                                {elem.title}
+                              </h3>
+                              <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+                                {elem.details}
+                              </p>
+                            </div>
+                            <div className="mt-4 flex justify-end">
+                              <button
+                                onClick={() => {
+                                  deleteNote(idx);
+                                }}
+                                className="bg-red-500 hover:bg-red-600 text-white text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-            );
-          })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
